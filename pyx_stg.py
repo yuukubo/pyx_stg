@@ -16,7 +16,7 @@ class App:
         self.w = 4
         self.h = 4
         self.spd = 1
-        self.title = "pyx_stg c2"
+        self.title = "pyx_stg c2_2"
 
         pyxel.run(self.update, self.draw)
 
