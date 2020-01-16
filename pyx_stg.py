@@ -2,9 +2,9 @@ import pyxel
 
 class App:
     def __init__(self):
-        pyxel.init(160, 120, caption="pyx_stg")
+        pyxel.init(255, 255, caption="pyx_stg")
 
-        self.text_area_w = 50
+        self.text_area_w = 60
 
         self.game_board_x = 10
         self.game_board_y = 10
@@ -15,21 +15,21 @@ class App:
         self.y = self.game_board_h * 9 / 10
         self.w = 4
         self.h = 4
-        self.spd = 1
-        self.title = "pyx_stg c2_2"
+        self.spd = 2
+        self.title = "pyx_stg c3_1"
 
         pyxel.run(self.update, self.draw)
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_LEFT, 1, 1):
             self.x = self.x - 1 * self.spd
-        elif pyxel.btnp(pyxel.KEY_UP, 1, 1):
+        if pyxel.btnp(pyxel.KEY_UP, 1, 1):
             self.y = self.y - 1 * self.spd
-        elif pyxel.btnp(pyxel.KEY_RIGHT, 1, 1):
+        if pyxel.btnp(pyxel.KEY_RIGHT, 1, 1):
             self.x = self.x + 1 * self.spd
-        elif pyxel.btnp(pyxel.KEY_DOWN, 1, 1):
+        if pyxel.btnp(pyxel.KEY_DOWN, 1, 1):
             self.y = self.y + 1 * self.spd
-        elif pyxel.btnp(pyxel.KEY_Q):
+        if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
         
         if self.x < self.game_board_x:
