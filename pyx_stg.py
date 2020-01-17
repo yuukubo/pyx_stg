@@ -2,7 +2,7 @@ import pyxel
 
 class App:
     def __init__(self):
-        pyxel.init(255, 255, caption="pyx_stg")
+        pyxel.init(254, 254, caption="pyx_stg", fps=60)
 
         self.text_area_w = 60
 
@@ -16,7 +16,7 @@ class App:
         self.w = 4
         self.h = 4
         self.spd = 2
-        self.title = "pyx_stg c3_1"
+        self.title = "pyx_stg c4_1"
 
         pyxel.run(self.update, self.draw)
 
@@ -50,5 +50,184 @@ class App:
         pyxel.text(pyxel.width - self.text_area_w, 10 * 4, "y : " + str(self.y), 10)
 
         pyxel.rect(self.x, self.y, self.w, self.h, 8)
+
+class Sprite:
+    def __init__(self):
+        pass
+
+class   Shooter(Sprite):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class     Enemy(Shooter):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       Fairy01(Enemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       Fairy02(Enemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       BigFairy01(Enemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class     Jiki(Shooter):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       PowerTypeJiki(Jiki):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       HomingTypeJiki(Jiki):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class   Bullet(Sprite):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class     BulletOfEnemy(Bullet):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       MiniBulletOfEnemy(BulletOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       BigBulletOfEnemy(BulletOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       SpellOfEnemy(BulletOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class         SpellOfEnemy01Easy(SpellOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class         SpellOfEnemy01Hard(SpellOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class         SpellOfEnemy02Easy(SpellOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class         SpellOfEnemy02Hard(SpellOfEnemy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class     BulletOfJiki(Bullet):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       BulletOfJikiNomal(BulletOfJiki):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       BulletOfJikiLaser(BulletOfJiki):
+    def __init__(self):
+        super().__init__()
+        pass
+
+class       BulletOfJikiSpell(BulletOfJiki):
+    def __init__(self):
+        super().__init__()
+        pass
+
+
+class GameScene:
+    pass
+
+class   LogoScene(GameScene):
+    pass
+
+class   TitleScene(GameScene):
+    pass
+
+class   ManualScene(GameScene):
+    pass
+
+class   StageScene(GameScene):
+    pass
+
+class     Stage1Scene(StageScene):
+    pass
+
+class     Stage2Scene(StageScene):
+    pass
+
+class     PauseScene(StageScene):
+    pass
+
+class     ResultScene(StageScene):
+    pass
+
+class   GameOverScene(GameScene):
+    pass
+
+class   GameClearScene(GameScene):
+    pass
+
+class   EndingScene(GameScene):
+    pass
+
+class   InterScene(GameScene):
+    pass
+
+
+
+class StageScenario:
+    pass
+
+class   Stage1ScenarioEasy(StageScenario):
+    pass
+
+class   Stage1ScenarioHard(StageScenario):
+    pass
+
+class   Stage2ScenarioEasy(StageScenario):
+    pass
+
+class   Stage2ScenarioHard(StageScenario):
+    pass
+
+
+
+class GameBoard:
+    pass
+
+class   StgArea(GameBoard):
+    pass
+
+class   TextArea(GameBoard):
+    pass
+
+
 
 App()
