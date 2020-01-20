@@ -4,7 +4,7 @@ import pdb
 
 class App:
     def __init__(self):
-        self.title = "pyx_stg c6_1"
+        self.title = "pyx_stg c7_1"
         pyxel.init(254, 254, caption=self.title, fps=60)
 
         self.game_scene = GameScene(self.title)
@@ -211,6 +211,8 @@ class GameScene:
     stg_area = ""
     jiki = ""
     game_scene_now = ""
+
+    logo_scene = ""
     stage_1_scene = ""
 
     def __init__(self, title_arg):
@@ -219,23 +221,49 @@ class GameScene:
         GameScene.text_area = TextArea(GameScene.title)
         GameScene.stg_area = StgArea(GameScene.text_area)
         GameScene.jiki = Jiki(GameScene.stg_area)
-        GameScene.game_scene_now = "stage1"
-        self.sceneControl()
+        GameScene.game_scene_now = "logo_scene"
 
-    def sceneControl(self):
-        if GameScene.game_scene_now == "stage1":
-            GameScene.stage_1_scene = Stage1Scene()
+        GameScene.logo_scene = LogoScene(GameScene.title)
+        GameScene.stage_1_scene = Stage1Scene()
 
+    def sceneControl(self, mode):
+        self.mode = mode
+        if GameScene.game_scene_now == "logo_scene":
+            if self.mode == 1:
+                GameScene.logo_scene.update()
+            elif  self.mode == 2:
+                GameScene.logo_scene.draw()
+        elif GameScene.game_scene_now == "stage_1_scene":
+            if self.mode == 1:
+                GameScene.stage_1_scene.update()
+            elif  self.mode == 2:
+                GameScene.stage_1_scene.draw()
+ 
     def update(self):
-        if GameScene.game_scene_now == "stage1":
-            GameScene.stage_1_scene.update()
+        self.sceneControl(1)
 
     def draw(self):
-        if GameScene.game_scene_now == "stage1":
-            GameScene.stage_1_scene.draw()
+        self.sceneControl(2)
 
 class   LogoScene(GameScene):
     pass
+    def __init__(self, title):
+        self.title = title
+        self.x = pyxel.width / 2
+        self.y = 0
+
+    def update(self):
+        if pyxel.btnp(pyxel.KEY_Z):
+            GameScene.game_scene_now = "stage_1_scene"
+        
+        if self.y < pyxel.height / 2:
+            self.y+=0.5
+ 
+    def draw(self):
+        pyxel.text(self.x - 20, self.y / 2, self.title, 10)
+        if self.y == pyxel.height / 2:
+            if (pyxel.frame_count % 60) <= 30:
+                pyxel.text(self.x, self.y * 4 / 3, "press z key to start", 10)
 
 class   TitleScene(GameScene):
     pass
