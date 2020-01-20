@@ -4,13 +4,10 @@ import pdb
 
 class App:
     def __init__(self):
-        self.title = "pyx_stg c5_48"
+        self.title = "pyx_stg c6_1"
         pyxel.init(254, 254, caption=self.title, fps=60)
 
-        self.game_board = GameBoard()
-        self.text_area = TextArea(self.title)
-        self.stg_area = StgArea(self.text_area)
-        self.jiki = Jiki(self.stg_area)
+        self.game_scene = GameScene(self.title)
 
         pyxel.run(self.update, self.draw)
 
@@ -18,17 +15,11 @@ class App:
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
         
-        self.game_board.update()
-        self.text_area.update()
-        self.stg_area.update()
-        self.jiki.update()
+        self.game_scene.update()
 
     def draw(self):
         pyxel.cls(0)
-        self.game_board.draw()
-        self.text_area.draw(self.jiki)
-        self.stg_area.draw()
-        self.jiki.draw()
+        self.game_scene.draw()
 
 class Sprite:
     def __init__(self):
@@ -77,7 +68,7 @@ class         BigFairy01(Boss):
 
 class     Jiki(Shooter):
     def __init__(self, stg_area):
-#        super().__init__()
+        super().__init__()
         self.stg_area = stg_area
         self.x = (self.stg_area.w + self.stg_area.x) / 2
         self.y = (self.stg_area.h + self.stg_area.y) * 9 / 10
@@ -214,7 +205,34 @@ class         SpellBulletOfJiki01(BulletOfJiki):
 
 
 class GameScene:
-    pass
+    title = ""
+    game_board = ""
+    text_area = ""
+    stg_area = ""
+    jiki = ""
+    game_scene_now = ""
+    stage_1_scene = ""
+
+    def __init__(self, title_arg):
+        GameScene.title = title_arg
+        GameScene.game_board = GameBoard()
+        GameScene.text_area = TextArea(GameScene.title)
+        GameScene.stg_area = StgArea(GameScene.text_area)
+        GameScene.jiki = Jiki(GameScene.stg_area)
+        GameScene.game_scene_now = "stage1"
+        self.sceneControl()
+
+    def sceneControl(self):
+        if GameScene.game_scene_now == "stage1":
+            GameScene.stage_1_scene = Stage1Scene()
+
+    def update(self):
+        if GameScene.game_scene_now == "stage1":
+            GameScene.stage_1_scene.update()
+
+    def draw(self):
+        if GameScene.game_scene_now == "stage1":
+            GameScene.stage_1_scene.draw()
 
 class   LogoScene(GameScene):
     pass
@@ -230,6 +248,20 @@ class   StageScene(GameScene):
 
 class     Stage1Scene(StageScene):
     pass
+    def __init__(self):
+        pass
+
+    def update(self):
+        self.game_board.update()
+        self.text_area.update()
+        self.stg_area.update()
+        self.jiki.update()
+
+    def draw(self):
+        self.game_board.draw()
+        self.text_area.draw(self.jiki)
+        self.stg_area.draw()
+        self.jiki.draw()
 
 class     Stage2Scene(StageScene):
     pass
@@ -299,9 +331,10 @@ class   TextArea(GameBoard):
 
 class   StgArea(GameBoard):
     def __init__(self, text_area):
+        self.text_area = text_area
         self.x = 10
         self.y = 10
-        self.w = pyxel.width - (text_area.w + self.x * 2)
+        self.w = pyxel.width - (self.text_area.w + self.x * 2)
         self.h = pyxel.height - (self.y * 2)
 
     def update(self):
