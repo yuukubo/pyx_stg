@@ -1,10 +1,11 @@
 import pyxel
+import random
 import pdb
 #pdb.set_trace()
 
 class App:
     def __init__(self):
-        self.title = "pyx_stg c7_1"
+        self.title = "pyx_stg c8_1"
         pyxel.init(254, 254, caption=self.title, fps=60)
 
         self.game_scene = GameScene(self.title)
@@ -47,9 +48,45 @@ class       Mob(Enemy):
         pass
 
 class         Fairy01(Mob):
-    def __init__(self):
+    def __init__(self, stg_area):
         super().__init__()
-        pass
+        self.stg_area = stg_area
+        self.x = random.randint(self.stg_area.x, self.stg_area.w + self.stg_area.x)
+        self.y = self.stg_area.y
+        self.w = 3
+        self.h = 3
+        self.spd = 0.5
+        self.is_frameout = False
+
+    def update(self):
+        self.move()
+        self.chkLimit()
+        self.wkRespawn()
+
+    def   wkRespawn(self):
+        if self.is_frameout:
+            self.x = random.randint(self.stg_area.x, self.stg_area.w + self.stg_area.x)
+            self.y = self.stg_area.y
+            self.is_frameout = False
+
+    def   frameout(self):
+        self.is_frameout = True
+
+    def   move(self):
+        self.y = self.y + 1 * self.spd
+
+    def   chkLimit(self):
+        if self.x < self.stg_area.x:
+            self.frameout()
+        if (self.stg_area.w + self.stg_area.x) < (self.x + self.w):
+            self.frameout()
+        if self.y < self.stg_area.y:
+            self.frameout()
+        if (self.stg_area.h + self.stg_area.y) < (self.y + self.h):
+            self.frameout()
+
+    def draw(self):
+        pyxel.rect(self.x, self.y, self.w, self.h, 14)
 
 class         Fairy02(Mob):
     def __init__(self):
@@ -216,11 +253,11 @@ class GameScene:
     stage_1_scene = ""
 
     def __init__(self, title_arg):
+        self.is_init = False
         GameScene.title = title_arg
         GameScene.game_board = GameBoard()
         GameScene.text_area = TextArea(GameScene.title)
         GameScene.stg_area = StgArea(GameScene.text_area)
-        GameScene.jiki = Jiki(GameScene.stg_area)
         GameScene.game_scene_now = "logo_scene"
 
         GameScene.logo_scene = LogoScene(GameScene.title)
@@ -248,14 +285,12 @@ class GameScene:
 class   LogoScene(GameScene):
     pass
     def __init__(self, title):
+        self.is_init = False
         self.title = title
         self.x = pyxel.width / 2
         self.y = 0
 
     def update(self):
-        if pyxel.btnp(pyxel.KEY_Z):
-            GameScene.game_scene_now = "stage_1_scene"
-        
         if self.y < pyxel.height / 2:
             self.y+=0.5
  
@@ -264,6 +299,9 @@ class   LogoScene(GameScene):
         if self.y == pyxel.height / 2:
             if (pyxel.frame_count % 60) <= 30:
                 pyxel.text(self.x, self.y * 4 / 3, "press z key to start", 10)
+
+        if pyxel.btnp(pyxel.KEY_Z):
+            GameScene.game_scene_now = "stage_1_scene"
 
 class   TitleScene(GameScene):
     pass
@@ -277,19 +315,23 @@ class   StageScene(GameScene):
 class     Stage1Scene(StageScene):
     pass
     def __init__(self):
-        pass
+        self.is_init = False
+        if self.is_init == False:
+            self.jiki = Jiki(GameScene.stg_area)
+            self.stage_1_scenario_easy = Stage1ScenarioEasy(self.jiki)
+            self.is_init = "true"
 
     def update(self):
         self.game_board.update()
         self.text_area.update()
         self.stg_area.update()
-        self.jiki.update()
+        self.stage_1_scenario_easy.update()
 
     def draw(self):
         self.game_board.draw()
         self.text_area.draw(self.jiki)
         self.stg_area.draw()
-        self.jiki.draw()
+        self.stage_1_scenario_easy.draw()
 
 class     Stage2Scene(StageScene):
     pass
@@ -321,6 +363,20 @@ class StageScenario:
 
 class   Stage1ScenarioEasy(StageScenario):
     pass
+    def __init__(self, jiki):
+        self.is_init = False
+        if self.is_init == False:
+            self.jiki = jiki
+            self.fairy_01 = Fairy01(GameScene.stg_area)
+            self.is_init = "true"
+
+    def update(self):
+        self.jiki.update()
+        self.fairy_01.update()
+
+    def draw(self):
+        self.jiki.draw()
+        self.fairy_01.draw()
 
 class   Stage1ScenarioHard(StageScenario):
     pass
